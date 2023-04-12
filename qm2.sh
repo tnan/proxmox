@@ -43,15 +43,16 @@ echo "Importing Disk Image..."
 qm set ${vmid} --sata0 ${diskname}:0,import-from=${imagepath} > /dev/null 2>&1
 disksize_byte=$(stat -c %s ${disklocation}/images/${vmid}/vm-${vmid}-disk-0.raw)
 disksize_megabyte=$(expr $disksize_byte / 1024 / 1024)
-disksize_resize=$(expr ${disksize} - ${disksize_megabyte})
+disksize_resize=$(expr ${disksize} - ${disksize_megabyte} - 1)
 echo "Setting Disk Size: ${disksize} MB"
-qm resize ${vmid} sata0 +${disksize_resize}M > /dev/null
-echo "configuring Snippets..."
+qm resize ${vmid} sata0 +${disksize_resize}M > /dev/null 2>&1
+qm resize ${vmid} sata0 +1M > /dev/null 2>&1
+echo "Configuring Snippets..."
 qm start ${vmid} > /dev/null 2>&1
-vmstatus=$(qm status 1000)
+vmstatus=$(qm status ${vmid})
 while [ "$vmstatus" != "status: stopped" ]
 do
-vmstatus=$(qm status 1000) > /dev/null 2>&1
+vmstatus=$(qm status ${vmid}) > /dev/null 2>&1
 done
 sed -i "s/cicustom: user=${diskname}:snippets\/cloud-init.yaml//g" /etc/pve/qemu-server/${vmid}.conf
 rm ${disklocation}/snippets/cloud-init.yaml
