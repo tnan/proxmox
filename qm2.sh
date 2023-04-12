@@ -2,7 +2,7 @@
 hypen=
 
 read -p "Set VMID: " vmid
-read -p "Set Name: " name
+read -p "Set Name (hostname): " name
 read -p "Set Core: " core
 read -p "set Memory (MB): " memory
 read -p "Set Disk Size (MB): " disksize
