@@ -30,9 +30,9 @@ echo "Setting Cloud-init..."
 qm set ${vmid} --ide0 ${diskname}:cloudinit > /dev/null 2>&1
 echo '#cloud-config' > ${disklocation}/snippets/cloud-init.yaml
 echo 'bootcmd:' >> ${disklocation}/snippets/cloud-init.yaml
-echo " - sed 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config" >> ${disklocation}/snippets/cloud-init.yaml
-echo " - sed 's/#PubkeyAuthentication yes/PubkeyAuthentication no/g' /etc/ssh/sshd_config" >> ${disklocation}/snippets/cloud-init.yaml
-echo " - sed 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config" >> ${disklocation}/snippets/cloud-init.yaml
+echo " - sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config" >> ${disklocation}/snippets/cloud-init.yaml
+echo " - sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication no/g' /etc/ssh/sshd_config" >> ${disklocation}/snippets/cloud-init.yaml
+echo " - sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config" >> ${disklocation}/snippets/cloud-init.yaml
 echo " - history -c" >> ${disklocation}/snippets/cloud-init.yaml
 echo " - poweroff" >> ${disklocation}/snippets/cloud-init.yaml
 echo "Setting Network..."
