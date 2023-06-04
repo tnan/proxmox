@@ -45,5 +45,4 @@ disksize_megabyte=$(expr $disksize_byte / 1024 / 1024)
 disksize_resize=$(expr ${disksize} - ${disksize_megabyte})
 echo "Setting Disk Size: ${disksize} MB"
 qm resize ${vmid} sata0 +${disksize_resize}M > /dev/null
-
 echo "Done!"
