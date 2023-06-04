@@ -1,5 +1,4 @@
 #!/bin/bash
-hypen=
 
 read -p "Set VMID: " vmid
 read -p "Set Name (hostname): " name
