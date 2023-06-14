@@ -58,7 +58,6 @@ echo "5 | CentOS 6"
 echo "6 | CentOS 7"
 echo "7 | CentOS 8 Stream"
 echo "8 | CentOS 9 Stream"
-echo "Cloud-int Configuration temporary not work on CentOS"
 
 echo -n "Choose ${GREEN}Cloud OS:${NC} " ; read n
 case $n in
@@ -129,7 +128,12 @@ qm set ${vmid} --ide0 ${diskname}:cloudinit > /dev/null 2>&1
 echo '#cloud-config' > ${diskpath}/snippets/cloud-init.yaml
 echo 'bootcmd:' >> ${diskpath}/snippets/cloud-init.yaml
 echo " - sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config" >> ${diskpath}/snippets/cloud-init.yaml
+echo " - sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/g' /etc/ssh/sshd_config" >> ${diskpath}/snippets/cloud-init.yaml
+echo " - sed -i 's/#PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config" >> ${diskpath}/snippets/cloud-init.yaml
 echo " - sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication no/g' /etc/ssh/sshd_config" >> ${diskpath}/snippets/cloud-init.yaml
+echo " - sed -i 's/#PubkeyAuthentication no/PubkeyAuthentication no/g' /etc/ssh/sshd_config" >> ${diskpath}/snippets/cloud-init.yaml
+echo " - sed -i 's/#PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config" >> ${diskpath}/snippets/cloud-init.yaml
+echo " - sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/g' /etc/ssh/sshd_config" >> ${diskpath}/snippets/cloud-init.yaml
 echo " - sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config" >> ${diskpath}/snippets/cloud-init.yaml
 echo " - history -c" >> ${diskpath}/snippets/cloud-init.yaml
 echo " - poweroff" >> ${diskpath}/snippets/cloud-init.yaml
