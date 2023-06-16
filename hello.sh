@@ -1,1 +1,1 @@
-echo "Hello"
+yum update
