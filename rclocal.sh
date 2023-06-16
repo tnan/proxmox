@@ -1,6 +1,13 @@
 #!/bin/bash
 
-echo "curl -s https://raw.githubusercontent.com/tnan/proxmox/main/enable_root_ssh.sh | sh)" >> /etc/rc.local
-chmod +x /etc/rc.local
-systemctl enable rc-local
-poweroff
+sed -i "s/.*disable_root.*/disable_root: false/g" /etc/cloud/cloud.cfg
+sed -i "s/.*ssh_pwauth.*/ssh_pwauth: true/g" /etc/cloud/cloud.cfg
+
+sed -i "s/.*PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config
+sed -i "s/.*PubkeyAuthentication.*/PubkeyAuthentication no/g" /etc/ssh/sshd_config
+sed -i "s/.*PasswordAuthentication.*/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+
+sed -i "s/.*curl*//g" /etc/ssh/sshd_config
+rm /root/rclocal.sh
+
+reboot
