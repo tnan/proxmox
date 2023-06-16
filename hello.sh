@@ -1,0 +1,2 @@
+yum update
+apt update
