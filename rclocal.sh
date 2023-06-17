@@ -10,4 +10,4 @@ sed -i 's/PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_c
 sed -i 's/sh \/root\/rclocal.sh//g' /etc/rc.local
 rm /root/rclocal.sh
 
-reboot
+poweroff
