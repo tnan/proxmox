@@ -77,7 +77,7 @@ wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.i
 ;;
 
 4)
-echo "Downloading ${GREEN}Ubuntu 23.04 LTS${NC}..."
+echo "Downloading ${GREEN}Ubuntu 23.04${NC}..."
 wget https://cloud-images.ubuntu.com/lunar/current/lunar-server-cloudimg-amd64.img -O ${diskpath}/cloud/download-os.img
 ;;
 
