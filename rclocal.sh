@@ -11,5 +11,6 @@ sed -i 's/.*ChallengeResponseAuthentication.*/ChallengeResponseAuthentication ye
 
 echo "" > /etc/rc.local
 rm /root/rclocal.sh
+systemctl disable rc-local
 
 poweroff
