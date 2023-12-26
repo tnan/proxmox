@@ -134,6 +134,7 @@ qm resize ${vmid} scsi1 +1M > /dev/null 2>&1
 echo "Setting Network..."
 qm set ${vmid} --net0 e1000,bridge=vmbr0 > /dev/null 2>&1
 qm set ${vmid} --scsihw virtio-scsi-pci > /dev/null 2>&1
+qm set ${vmid} --serial0 socket > /dev/null 2>&1
 qm set ${vmid} --cicustom "user=${diskname}:snippets/cloud-init-${vmid}.yaml" > /dev/null 2>&1
 echo "Setting Snippets..."
 qm set ${vmid} --scsi0 ${diskname}:cloudinit > /dev/null 2>&1
