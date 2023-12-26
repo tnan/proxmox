@@ -101,6 +101,26 @@ echo "Downloading ${GREEN}CentOS 9 Stream${NC}..."
 wget https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2 -O ${diskpath}/cloud/download-os.img
 ;;
 
+9)
+echo "Downloading ${GREEN}Debian 9 (Buster)${NC}..."
+wget https://cloud.debian.org/images/cloud/stretch/daily/20200210-166/debian-9-ec2-arm64-daily-20200210-166.tar.xz -O ${diskpath}/cloud/download-os.img
+;;
+
+10)
+echo "Downloading ${GREEN}Debian 10 (buster)${NC}..."
+wget https://cloud.debian.org/images/cloud/buster/latest/debian-10-generic-amd64.qcow2 -O ${diskpath}/cloud/download-os.img
+;;
+
+11)
+echo "Downloading ${GREEN}Debian 11 (bullseye)${NC}..."
+wget https://cloud.debian.org/images/cloud/bullseye/latest/debian-11-generic-amd64.qcow2 -O ${diskpath}/cloud/download-os.img
+;;
+
+12)
+echo "Downloading ${GREEN}Debian 12 (bookworm)${NC}..."
+wget https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-generic-amd64.qcow2 -O ${diskpath}/cloud/download-os.img
+;;
+
 *) echo "invalid option";;
 esac
 imagepath=${diskpath}/cloud/download-os.img
