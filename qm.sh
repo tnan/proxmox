@@ -58,6 +58,10 @@ echo "5 | CentOS 6"
 echo "6 | CentOS 7"
 echo "7 | CentOS 8 Stream"
 echo "8 | CentOS 9 Stream"
+echo "9 | Debian 9 (Buster)"
+echo "10 | Debian 10 (buster)"
+echo "11 | Debian 11 (bullseye)"
+echo "12 | Debian 12 (bookworm)"
 
 echo -n "Choose ${GREEN}Cloud OS:${NC} " ; read n
 case $n in
