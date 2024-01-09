@@ -31,6 +31,10 @@ echo -n "Set Disk Path | (default: /mnt/pve/${diskname}): " ; read diskpath
 diskpath=${diskpath:-/mnt/pve/${diskname}}
 echo "${GREEN}Set Disk Path: $diskpath${NC}"
 
+echo -n "Set Bridge | (default: vmbr0): " ; read bridge
+bridge=${bridge:-vmbr0}
+echo "${GREEN}Set Bridge: $bridge${NC}"
+
 read -p "Set IP Address (example: 10.0.10.123/24): " ipaddress
 read -p "Set IP Gateway (example: 10.0.10.1): " ipgateway
 
@@ -156,7 +160,7 @@ echo "Setting Disk Size: ${GREEN}${disksize} MB${NC}"
 qm resize ${vmid} scsi1 +${disksize_resize}M > /dev/null 2>&1
 qm resize ${vmid} scsi1 +1M > /dev/null 2>&1
 echo "Setting Network..."
-qm set ${vmid} --net0 e1000,bridge=vmbr0 > /dev/null 2>&1
+qm set ${vmid} --net0 e1000,bridge=${bridge} > /dev/null 2>&1
 qm set ${vmid} --scsihw virtio-scsi-pci > /dev/null 2>&1
 qm set ${vmid} --serial0 socket > /dev/null 2>&1
 qm set ${vmid} --cicustom "user=${diskname}:snippets/cloud-init-${vmid}.yaml" > /dev/null 2>&1
