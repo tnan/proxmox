@@ -1,1 +1,220 @@
-tnan
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxmox VM Generator</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        .form-container {
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .form-container .input-group {
+            margin-bottom: 10px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+        .form-container .input-group label {
+            width: 250px;
+            margin-right: 10px;
+        }
+        .form-container .input-group input[type="text"],
+        .form-container .input-group select,
+        .output-box {
+            width: calc(100% - 0px);
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        .form-container input[type="submit"],
+        .form-container button {
+            width: auto;
+            padding: 5px 10px;
+            margin-top: 10px;
+        }
+        hr {
+            display: none;
+            margin-top: 20px;
+            border: none;
+            border-top: 1px solid #ccc;
+            width: 100%;
+        }
+        .output-box {
+            display: none;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Proxmox VM Generator</h2>
+            <form id="inputForm">
+                <div class="input-group">
+                    <label for="vmid">VMID:</label>
+                    <input type="text" id="vmid" name="vmid" required>
+                </div>
+                <div class="input-group">
+                    <label for="hostname">Hostname:</label>
+                    <input type="text" id="hostname" name="hostname" required>
+                </div>
+                <div class="input-group">
+                    <label for="core">Core:</label>
+                    <input type="text" id="core" name="core" required>
+                </div>
+                <div class="input-group">
+                    <label for="memory">Memory:</label>
+                    <input type="text" id="memory" name="memory" required>
+                </div>
+                <div class="input-group">
+                    <label for="disksize">Disk Size:</label>
+                    <input type="text" id="disksize" name="disksize" required>
+                </div>
+                <div class="input-group">
+                    <label for="diskname">Disk Name:</label>
+                    <input type="text" id="diskname" name="diskname" required>
+                </div>
+                <div class="input-group">
+                    <label for="diskpath">Disk Path:</label>
+                    <input type="text" id="diskpath" name="diskpath" required>
+                </div>
+                <div class="input-group">
+                    <label for="bridge">Bridge:</label>
+                    <input type="text" id="bridge" name="bridge" required>
+                </div>
+                <div class="input-group">
+                    <label for="ipaddress">IP Address:</label>
+                    <input type="text" id="ipaddress" name="ipaddress" required>
+                </div>
+                <div class="input-group">
+                    <label for="ipgateway">IP Gateway:</label>
+                    <input type="text" id="ipgateway" name="ipgateway" required>
+                </div>
+                <div class="input-group">
+                    <label for="rootpassword">Root Password:</label>
+                    <input type="text" id="rootpassword" name="rootpassword" required>
+                </div>
+                <div class="input-group">
+                    <label for="downloadchoice">Download Choice:</label>
+                    <select id="downloadchoice" name="downloadchoice" required>
+                        <option value="" disabled selected>Select Download Choice</option>
+                        <option value="local">Local</option>
+                        <option value="download">Download</option>
+                    </select>
+                </div>
+                <div class="input-group" id="imagepathGroup" style="display: none;">
+                    <label for="imagepath">Image Path:</label>
+                    <input type="text" id="imagepath" name="imagepath">
+                </div>
+                <div class="input-group" id="oschoiceGroup" style="display: none;">
+                    <label for="oschoice">OS Choice:</label>
+                    <input type="text" id="oschoice" name="oschoice">
+                </div>
+                <input type="submit" value="Submit">
+            </form>
+            <hr id="horizontalLine">
+            <div class="output-box" id="output"></div>
+            <button style="display: none; margin-top: 10px;" id="copyButton" onclick="copyOutput()">Copy</button>
+        </div>
+    </div>
+
+<script>
+    function copyOutput() {
+        var outputText = document.getElementById('output').innerText.trim();
+        navigator.clipboard.writeText(outputText)
+            .then(() => {
+                document.getElementById('copyButton').innerText = 'Copied';
+                document.getElementById('copyButton').disabled = true;
+            })
+            .catch((error) => console.error('Error copying output: ', error));
+    }
+
+    document.getElementById('inputForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var vmid = document.getElementById('vmid').value;
+        var hostname = document.getElementById('hostname').value;
+        var core = document.getElementById('core').value;
+        var memory = document.getElementById('memory').value;
+        var disksize = document.getElementById('disksize').value;
+        var diskname = document.getElementById('diskname').value;
+        var diskpath = document.getElementById('diskpath').value;
+        var bridge = document.getElementById('bridge').value;
+        var ipaddress = document.getElementById('ipaddress').value;
+        var ipgateway = document.getElementById('ipgateway').value;
+        var rootpassword = document.getElementById('rootpassword').value;
+        var downloadchoice = document.getElementById('downloadchoice').value;
+        var output = '';
+
+        if (downloadchoice === 'local') {
+            var imagepath = document.getElementById('imagepath').value;
+            output = vmid + "\\n" + hostname + "\\n" + core + "\\n" + memory + "\\n" + disksize + "\\n" +
+                diskname + "\\n" + diskpath + "\\n" + bridge + "\\n" + ipaddress + "\\n" + ipgateway + "\\n" +
+                rootpassword + "\\n" + "1" + "\\n" + imagepath + "\\n";
+        } else if (downloadchoice === 'download') {
+            var oschoice = document.getElementById('oschoice').value;
+            output = vmid + "\\n" + hostname + "\\n" + core + "\\n" + memory + "\\n" + disksize + "\\n" +
+                diskname + "\\n" + diskpath + "\\n" + bridge + "\\n" + ipaddress + "\\n" + ipgateway + "\\n" +
+                rootpassword + "\\n" + "2" + "\\n" + oschoice + "\\n";
+        }
+
+        var outputDiv = document.getElementById('output');
+        outputDiv.innerHTML = 'wget -O qm.sh https://github.com/tnan/proxmox/raw/main/qm.sh && printf "' + output + '" | sh qm.sh';
+        outputDiv.style.display = 'block';
+        document.getElementById('copyButton').style.display = 'inline-block';
+        document.getElementById('copyButton').style.marginTop = '10px';
+        document.getElementById('horizontalLine').style.display = 'block';
+
+        var submitButton = document.querySelector('input[type="submit"]');
+        submitButton.value = 'Submitted';
+        submitButton.disabled = true;
+
+        document.getElementById('downloadchoice').disabled = true;
+    });
+
+    document.getElementById('downloadchoice').addEventListener('change', function() {
+        var downloadChoice = this.value;
+        var imagePathGroup = document.getElementById('imagepathGroup');
+        var osChoiceGroup = document.getElementById('oschoiceGroup');
+
+        if (downloadChoice === 'local') {
+            imagePathGroup.style.display = 'flex';
+            osChoiceGroup.style.display = 'none';
+            document.getElementById('oschoice').removeAttribute('required');
+            document.getElementById('imagepath').setAttribute('required');
+        } else if (downloadChoice === 'download') {
+            imagePathGroup.style.display = 'none';
+            osChoiceGroup.style.display = 'flex';
+            document.getElementById('imagepath').removeAttribute('required');
+            document.getElementById('oschoice').setAttribute('required');
+        } else {
+            imagePathGroup.style.display = 'none';
+            osChoiceGroup.style.display = 'none';
+        }
+    });
+</script>
+
+
+
+</body>
+</html>
