@@ -189,7 +189,19 @@
         submitButton.value = 'Submitted';
         submitButton.disabled = true;
 
+        document.getElementById('vmid').disabled = true;
+        document.getElementById('hostname').disabled = true;
+        document.getElementById('core').disabled = true;
+        document.getElementById('memory').disabled = true;
+        document.getElementById('disksize').disabled = true;
+        document.getElementById('diskname').disabled = true;
+        document.getElementById('diskpath').disabled = true;
+        document.getElementById('bridge').disabled = true;
+        document.getElementById('ipaddress').disabled = true;
+        document.getElementById('ipgateway').disabled = true;
+        document.getElementById('rootpassword').disabled = true;
         document.getElementById('downloadchoice').disabled = true;
+        document.getElementById('oschoice').disabled = true;
     });
 
     document.getElementById('downloadchoice').addEventListener('change', function() {
