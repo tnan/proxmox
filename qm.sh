@@ -152,20 +152,20 @@ qm set ${vmid} --core ${core} > /dev/null 2>&1
 echo "Setting Memory: ${GREEN}${memory} MB${NC}"
 qm set ${vmid} --memory ${memory} > /dev/null 2>&1
 echo "Importing Disk Image..."
-qm set ${vmid} --scsi1 ${diskname}:0,import-from=${imagepath} > /dev/null 2>&1
+qm set ${vmid} --scsi0 ${diskname}:0,import-from=${imagepath} > /dev/null 2>&1
 disksize_byte=$(stat -c %s ${diskpath}/images/${vmid}/vm-${vmid}-disk-0.raw)
 disksize_megabyte=$(expr $disksize_byte / 1024 / 1024)
 disksize_resize=$(expr ${disksize} - ${disksize_megabyte} - 1)
 echo "Setting Disk Size: ${GREEN}${disksize} MB${NC}"
-qm resize ${vmid} scsi1 +${disksize_resize}M > /dev/null 2>&1
-qm resize ${vmid} scsi1 +1M > /dev/null 2>&1
+qm resize ${vmid} scsi0 +${disksize_resize}M > /dev/null 2>&1
+qm resize ${vmid} scsi0 +1M > /dev/null 2>&1
 echo "Setting Network..."
 qm set ${vmid} --net0 e1000,bridge=${bridge} > /dev/null 2>&1
 qm set ${vmid} --scsihw virtio-scsi-pci > /dev/null 2>&1
 qm set ${vmid} --serial0 socket > /dev/null 2>&1
 qm set ${vmid} --cicustom "user=${diskname}:snippets/cloud-init-${vmid}.yaml" > /dev/null 2>&1
 echo "Setting Snippets..."
-qm set ${vmid} --scsi0 ${diskname}:cloudinit > /dev/null 2>&1
+qm set ${vmid} --ide0 ${diskname}:cloudinit > /dev/null 2>&1
 echo "#cloud-config" > ${diskpath}/snippets/cloud-init-${vmid}.yaml
 echo "runcmd:" >> ${diskpath}/snippets/cloud-init-${vmid}.yaml
 echo " - echo \"#!/bin/sh\" > /root/rclocal.sh" >> ${diskpath}/snippets/cloud-init-${vmid}.yaml
